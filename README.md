@@ -16,8 +16,7 @@ Overview of goals and background:
 		-Multiplayer
 		-Menus
 		
-2. How it works
-	1. Packages:
+2. How it works (packages)
 			1. game:
 				1. Game.java
 					-Main game loop
