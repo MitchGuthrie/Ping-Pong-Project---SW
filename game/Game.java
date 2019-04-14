@@ -10,6 +10,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import entities.Player;
 import gfx.Colors;
 import gfx.Font;
 import gfx.Screen;
@@ -38,6 +39,9 @@ public class Game extends Canvas implements Runnable {
 	public InputHandler input;
 	public Level level;
 
+	public Player player;
+
+	// Sets up game frame/window
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -55,6 +59,7 @@ public class Game extends Canvas implements Runnable {
 		frame.setVisible(true);
 	}
 
+	// Initializes colors/graphics and players
 	public void init() {
 		int index = 0;
 		for (int r = 0; r < 6; r++) {
@@ -72,6 +77,11 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/res/sprite_sheet.png"));
 		input = new InputHandler(this);
 		level = new Level(64, 64);
+
+		// creates player, set pos on screen
+		player = new Player(level, 0, 0, 1, input);
+		// adds to level
+		level.addEntity(player);
 	}
 
 	public synchronized void start() {
@@ -83,7 +93,9 @@ public class Game extends Canvas implements Runnable {
 		running = false;
 	}
 
+	// Handles game speed and performance
 	public void run() {
+		// Time variables
 		long lastTime = System.nanoTime();
 		long lastTimer = System.currentTimeMillis();
 		double nsPerTick = 1000000000D / 60D;
@@ -91,8 +103,10 @@ public class Game extends Canvas implements Runnable {
 		int ticks = 0;
 		int frames = 0;
 
+		// Initializes colors/graphics and players
 		init();
 
+		// Keeps game running at constant speed, even if performance is low
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nsPerTick;
@@ -124,47 +138,36 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-	private int x = 0;
-	private int y = 0;
-
+	// Updates game logic
 	public void tick() {
 		tickCount++;
-
-		if (input.up.isPressed()) {
-			y -= 1;
-		}
-		if (input.down.isPressed()) {
-			y += 1;
-		}
-		if (input.left.isPressed()) {
-			x -= 1;
-		}
-		if (input.right.isPressed()) {
-			x += 1;
-		}
-
 		level.tick();
 	}
 
+	// Renders graphics to screen
 	public void render() {
+
+		// Triple buffering to reduce tearing
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);
 			return;
 		}
 
-		int xOffset = x - (screen.width / 2);
-		int yOffset = y - (screen.height / 2);
+		int xOffset = player.x - (screen.width / 2);
+		int yOffset = player.y - (screen.height / 2);
 
+		// Rendering background tiles
 		level.renderTiles(screen, xOffset, yOffset);
 
+		// Rendering fonts
 		for (int x = 0; x < level.width; x++) {
 			int colour = Colors.get(-1, -1, -1, 000);
-			if (x % 10 == 0 && x != 0) {
-				colour = Colors.get(-1, -1, -1, 500);
-			}
-			Font.render((x % 10) + "", screen, 0 + (x * 8), 0, colour);
+			Font.render("This is text", screen, 30, 100, colour, 1);
 		}
+
+		// Rendering entities
+		level.renderEntities(screen);
 
 		for (int y = 0; y < screen.height; y++) {
 			for (int x = 0; x < screen.width; x++) {
@@ -176,12 +179,14 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 
+		// Graphics handling
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.dispose();
 		bs.show();
 	}
 
+	// Main function
 	public static void main(String[] args) {
 		new Game().start();
 	}

@@ -11,11 +11,13 @@ Overview of goals and background:
 		-User input
 		-Tile system to make levels
 		-Font system
-	2. Unfinished:
 		-Player character
+		-Scalable sizes
 		-Animation
+		-Collision (needs tweaking)
+	2. Unfinished:
+		-Physics
 		-Level Loading
-		-Collision/Physics
 		-Multiplayer
 		-Menus
 		
@@ -54,7 +56,14 @@ Overview of goals and background:
 					-Code outlining a basic tile
 				Tile.java
 					-Abstract class defining tile types (solid, liquid, etc)
-			5. res:
+			5. entities:
+				Entity.java
+					-
+				Mob.java
+					-
+				Player.java
+					-	
+			6. res:
 				1. Resource folder, contains sprite_sheet.java
 				
 This framework/engine was originally intended to be used to make
