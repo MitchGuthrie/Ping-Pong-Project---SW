@@ -2,6 +2,7 @@ package entities;
 
 import game.InputHandler;
 import gfx.Colors;
+import gfx.Font;
 import gfx.Screen;
 import level.Level;
 
@@ -11,10 +12,12 @@ public class Player extends Mob {
 	private int color = Colors.get(-1, 111, 145, 543);
 	private int scale = 1;
 	protected boolean isSwimming = false;
+	private String username;
 
-	public Player(Level level, int x, int y, int speed, InputHandler input) {
+	public Player(Level level, int x, int y, int speed, InputHandler input, String username) {
 		super(level, "Player", x, y, 1);
 		this.input = input;
+		this.username = username;
 	}
 
 	public void tick() {
@@ -88,6 +91,12 @@ public class Player extends Mob {
 					flipBottom, scale);
 			screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier,
 					(xTile + 1) + (yTile + 1) * 32, color, flipBottom, scale);
+		}
+
+		// Draws username above player
+		if (username != null) {
+			Font.render(username, screen, xOffset - ((username.length() - 1) / 2 * 8), yOffset - 10,
+					Colors.get(-1, -1, -1, 555), 1);
 		}
 
 	}

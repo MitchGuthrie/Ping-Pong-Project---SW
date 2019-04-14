@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import entities.Player;
 import gfx.Colors;
@@ -80,7 +81,7 @@ public class Game extends Canvas implements Runnable {
 		level = new Level("/res/Levels/water_test_level.png");
 
 		// creates player, set pos on screen
-		player = new Player(level, 0, 0, 1, input);
+		player = new Player(level, 0, 0, 1, input, JOptionPane.showInputDialog(this, "Please enter a username"));
 		// adds to level
 		level.addEntity(player);
 	}

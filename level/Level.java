@@ -21,6 +21,7 @@ public class Level {
 	private String imagePath;
 	private BufferedImage image;
 
+	// Constructor
 	public Level(String imagePath) {
 
 		// If level image isn't there, load default level
@@ -35,6 +36,7 @@ public class Level {
 		}
 	}
 
+	// Loads level from png
 	private void loadLevelFromFile() {
 		try {
 			this.image = ImageIO.read(Level.class.getResource(this.imagePath));
@@ -80,6 +82,7 @@ public class Level {
 		image.setRGB(x, y, newTile.getLevelColor());
 	}
 
+	// Generates default level if map png wont load
 	public void generateLevel() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
@@ -92,6 +95,7 @@ public class Level {
 		}
 	}
 
+	// Updates state of level 60 times per second
 	public void tick() {
 		// renders entites
 		for (Entity e : entities) {
@@ -107,6 +111,7 @@ public class Level {
 		}
 	}
 
+	// Renders level
 	public void renderTiles(Screen screen, int xOffset, int yOffset) {
 		if (xOffset < 0)
 			xOffset = 0;
@@ -117,13 +122,16 @@ public class Level {
 		if (yOffset > ((height << 3) - screen.height))
 			yOffset = ((height << 3) - screen.height);
 
+		// Centers level on screen
 		if (screen.width > width * 8)
 			xOffset = (screen.width - (width * 8)) / 2 * -1;
 		if (screen.height > height * 8)
 			yOffset = (screen.height - (height * 8)) / 2 * -1;
 
+		// How much the screen is offset by if player moves past middle of screen
 		screen.setOffset(xOffset, yOffset);
 
+		// Only renders what's currently on screen
 		for (int y = (yOffset >> 3); y < (yOffset + screen.height >> 3) + 1; y++) {
 			for (int x = (xOffset >> 3); x < (xOffset + screen.width >> 3) + 1; x++) {
 				getTile(x, y).render(screen, this, x << 3, y << 3);
@@ -131,7 +139,7 @@ public class Level {
 		}
 	}
 
-	// Renders entities ontop of tiles
+	// Renders entities on top of tiles
 	public void renderEntities(Screen screen) {
 		for (Entity e : entities) {
 			e.render(screen);
@@ -144,6 +152,7 @@ public class Level {
 		return Tile.tiles[tiles[x + y * width]];
 	}
 
+	// Adds entities to level
 	public void addEntity(Entity entity) {
 		this.entities.add(entity);
 	}
