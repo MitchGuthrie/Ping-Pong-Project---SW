@@ -1,5 +1,7 @@
 # Ping-Pong-Project
 
+HOW TO RUN: Run the Game.java (in game package)
+
 Overview of goals and background:
 
 1. Currently creating main game engine
