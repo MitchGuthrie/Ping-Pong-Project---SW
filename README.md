@@ -1,6 +1,6 @@
 # Ping-Pong-Project
 
-HOW TO RUN: Run the Game.java (in game package)
+HOW TO RUN: Run the Game.java (in game package), then click on game screen to activate movement
 
 Overview of goals and background:
 

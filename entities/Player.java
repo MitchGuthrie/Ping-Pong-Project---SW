@@ -10,6 +10,7 @@ public class Player extends Mob {
 	private InputHandler input;
 	private int color = Colors.get(-1, 111, 145, 543);
 	private int scale = 1;
+	protected boolean isSwimming = false;
 
 	public Player(Level level, int x, int y, int speed, InputHandler input) {
 		super(level, "Player", x, y, 1);
@@ -40,6 +41,13 @@ public class Player extends Mob {
 			isMoving = true;
 		}
 
+		// check if swimming
+		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 3) {
+			isSwimming = true;
+		}
+		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3) {
+			isSwimming = false;
+		}
 		// Change value to change scale of player
 		this.scale = 1;
 	}
@@ -75,10 +83,12 @@ public class Player extends Mob {
 				scale);
 
 		// lower body
-		screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * 32, color,
-				flipBottom, scale);
-		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32,
-				color, flipBottom, scale);
+		if (!isSwimming) {
+			screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * 32, color,
+					flipBottom, scale);
+			screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier,
+					(xTile + 1) + (yTile + 1) * 32, color, flipBottom, scale);
+		}
 
 	}
 

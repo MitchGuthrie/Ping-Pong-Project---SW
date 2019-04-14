@@ -97,6 +97,14 @@ public class Level {
 		for (Entity e : entities) {
 			e.tick();
 		}
+
+		// for animated tiles, loops through all tiles
+		for (Tile t : Tile.tiles) {
+			if (t == null) {
+				break;
+			}
+			t.tick();
+		}
 	}
 
 	public void renderTiles(Screen screen, int xOffset, int yOffset) {
