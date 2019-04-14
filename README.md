@@ -3,12 +3,12 @@
 Overview of goals and background:
 
 1. Currently creating main game engine
-	Done:
+	a. Done:
 		-Graphics processing
 		-User input
 		-Tile system to make levels
 		-Font system
-	Unfinished:
+	b. Unfinished:
 		-Player character
 		-Animation
 		-Level Loading
