@@ -3,6 +3,7 @@
 Overview of goals and background:
 
 1. Currently creating main game engine
+
 	1. Done:
 		-Graphics processing
 		-User input
@@ -17,6 +18,7 @@ Overview of goals and background:
 		-Menus
 		
 2. How it works (packages)
+
 			1. game:
 				1. Game.java
 					-Main game loop
