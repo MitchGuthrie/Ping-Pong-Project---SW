@@ -17,6 +17,9 @@ import gfx.Font;
 import gfx.Screen;
 import gfx.SpriteSheet;
 import level.Level;
+import networking.GameClient;
+import networking.GameServer;
+import networking.packets.Packet00Login;
 
 public class Game extends Canvas implements Runnable {
 
@@ -41,6 +44,9 @@ public class Game extends Canvas implements Runnable {
 	public Level level;
 
 	public Player player;
+
+	private GameClient socketClient;
+	private GameServer socketServer;
 
 	// Sets up game frame/window
 	public Game() {
@@ -80,15 +86,29 @@ public class Game extends Canvas implements Runnable {
 		level = new Level("/res/Levels/small_test_level.png");
 		level = new Level("/res/Levels/water_test_level.png");
 
-		// creates player, set pos on screen
-		player = new Player(level, 0, 0, 1, input, JOptionPane.showInputDialog(this, "Please enter a username"));
-		// adds to level
-		level.addEntity(player);
+		Packet00Login loginPacket = new Packet00Login(JOptionPane.showInputDialog(this, "Please enter a username"));
+		loginPacket.writeData(socketClient);
+
+		// // creates player, set pos on screen
+		// player = new Player(level, 0, 0, 1, input, JOptionPane.showInputDialog(this,
+		// "Please enter a username"));
+		// // adds to level
+		// level.addEntity(player);
+		//
+		// socketClient.sendData("Ping".getBytes());
 	}
 
 	public synchronized void start() {
 		running = true;
 		new Thread(this).start();
+
+		if (JOptionPane.showConfirmDialog(this, "Run server?") == 0) {
+			socketServer = new GameServer(this);
+			socketServer.start();
+		}
+
+		socketClient = new GameClient(this, "localhost");
+		socketClient.start();
 	}
 
 	public synchronized void stop() {
@@ -133,7 +153,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				System.out.println(ticks + " ticks , " + frames + " frames per second");
+				frame.setTitle(ticks + " ticks , " + frames + " frames per second");
 				frames = 0;
 				ticks = 0;
 			}

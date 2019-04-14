@@ -18,6 +18,7 @@ Overview of goals and background:
 		-Level Loading
 		-Importable levels from png
 		-Animated tiles
+		-Username displayed
 	2. Unfinished:
 		-Physics
 		-Multiplayer
