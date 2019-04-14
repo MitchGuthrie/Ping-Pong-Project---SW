@@ -1,1 +1,59 @@
 # Ping-Pong-Project
+
+Overview of goals and background:
+
+1. Currently creating main game engine
+	Done:
+		-Graphics processing
+		-User input
+		-Tile system to make levels
+		-Font system
+	Unfinished:
+		-Player character
+		-Animation
+		-Level Loading
+		-Collision/Physics
+		-Multiplayer
+		-Menus
+		
+2. How it works
+	Packages:
+			game:
+				Game.java
+					-Main game loop
+					-Graphics engine init
+					-Render function
+					-Main function
+				InputHandler.java
+					-Listens for keypresses
+					-Can assign buttons (currently WASD and Arrow Keys)
+					-Add functionality to presses
+			gfx:
+				Colors.java
+					-Sets limit on color use, 8 bit
+					-Gets RGB values
+				Font.java
+					-Grabs bottom 2 rows from sprite_sheet.png
+					-Assigns specific tiles to text
+				Screen.java
+					-Renders game screen
+					-Handles color info from sprite_sheet.png
+					-Graphics processing
+				SpriteSheet.java
+					-Uses sprite_sheet.png like minecraft uses textures
+					-Sets bounds (256x256)
+			level:
+				Level.java
+					-Generates level from selected tiles
+					-Use this to make maps/levels
+			level.tiles:
+				BasicTile.java
+					-Code outlining a basic tile
+				Tile.java
+					-Abstract class defining tile types (solid, liquid, etc)
+			res:
+				Resource folder, contains sprite_sheet.java
+				
+This framework/engine was originally intended to be used to make
+multiplayer RPGs, but we can alter it to be used for multiplayer
+pong game.
