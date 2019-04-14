@@ -1,7 +1,12 @@
 package level;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import entities.Entity;
 import gfx.Screen;
@@ -13,12 +18,66 @@ public class Level {
 	public int width;
 	public int height;
 	public List<Entity> entities = new ArrayList<Entity>();
+	private String imagePath;
+	private BufferedImage image;
 
-	public Level(int width, int height) {
-		tiles = new byte[width * height];
-		this.width = width;
-		this.height = height;
-		this.generateLevel();
+	public Level(String imagePath) {
+
+		// If level image isn't there, load default level
+		if (imagePath != null) {
+			this.imagePath = imagePath;
+			this.loadLevelFromFile();
+		} else {
+			this.width = 64;
+			this.height = 64;
+			tiles = new byte[width * height];
+			this.generateLevel();
+		}
+	}
+
+	private void loadLevelFromFile() {
+		try {
+			this.image = ImageIO.read(Level.class.getResource(this.imagePath));
+			this.width = image.getWidth();
+			this.height = image.getHeight();
+			tiles = new byte[width * height];
+			this.loadTiles();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// loops check for tiles, 256
+	private void loadTiles() {
+		// translated buffered image data into an int array/int
+		int[] tileColors = this.image.getRGB(0, 0, width, height, null, 0, width);
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				// loops through all tiles in tiles var with t
+				tileCheck: for (Tile t : Tile.tiles) {
+					if (t != null && t.getLevelColor() == tileColors[x + y * width]) {
+						this.tiles[x + y * width] = t.getId();
+						// stops searching after found
+						break tileCheck;
+					}
+				}
+			}
+		}
+	}
+
+	private void saveLevelToFile() {
+		try {
+			// takes image, inserts into this file
+			ImageIO.write(image, "png", new File(Level.class.getResource(imagePath).getFile()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Sets image with new RGB data
+	public void alterTile(int x, int y, Tile newTile) {
+		this.tiles[x + y * width] = newTile.getId();
+		image.setRGB(x, y, newTile.getLevelColor());
 	}
 
 	public void generateLevel() {
@@ -49,6 +108,11 @@ public class Level {
 			yOffset = 0;
 		if (yOffset > ((height << 3) - screen.height))
 			yOffset = ((height << 3) - screen.height);
+
+		if (screen.width > width * 8)
+			xOffset = (screen.width - (width * 8)) / 2 * -1;
+		if (screen.height > height * 8)
+			yOffset = (screen.height - (height * 8)) / 2 * -1;
 
 		screen.setOffset(xOffset, yOffset);
 

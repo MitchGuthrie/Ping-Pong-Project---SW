@@ -13,11 +13,13 @@ Overview of goals and background:
 		-Font system
 		-Player character
 		-Scalable sizes
-		-Animation
+		-Animated entities
 		-Collision (needs tweaking)
+		-Level Loading
+		-Importable levels from png
+		-Animated tiles
 	2. Unfinished:
 		-Physics
-		-Level Loading
 		-Multiplayer
 		-Menus
 		
@@ -49,13 +51,18 @@ Overview of goals and background:
 					-Sets bounds (256x256)
 			3. level:
 				Level.java
-					-Generates level from selected tiles
+					-Loads png from res/levels
+					-Converts png to array of nums from pixels
+					-Color of pixel determines type of tile
+					-Builds map
 					-Use this to make maps/levels
 			4. level.tiles:
 				BasicTile.java
 					-Code outlining a basic tile
 				Tile.java
 					-Abstract class defining tile types (solid, liquid, etc)
+				BasicSolidTile.java
+					-Abstract class defining what a solid tile is
 			5. entities:
 				Entity.java
 					-
@@ -64,7 +71,10 @@ Overview of goals and background:
 				Player.java
 					-	
 			6. res:
-				1. Resource folder, contains sprite_sheet.java
+					-Contains sprite_sheet.png
+			7. res.Levels
+					-Contains levels folder with maps
+				
 				
 This framework/engine was originally intended to be used to make
 multiplayer RPGs, but we can alter it to be used for multiplayer
