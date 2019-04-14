@@ -17,42 +17,42 @@ Overview of goals and background:
 		-Menus
 		
 2. How it works
-	Packages:
-			game:
-				Game.java
+	1. Packages:
+			1. game:
+				1. Game.java
 					-Main game loop
 					-Graphics engine init
 					-Render function
 					-Main function
-				InputHandler.java
+				2. InputHandler.java
 					-Listens for keypresses
 					-Can assign buttons (currently WASD and Arrow Keys)
 					-Add functionality to presses
-			gfx:
-				Colors.java
+			2. gfx:
+				1. Colors.java
 					-Sets limit on color use, 8 bit
 					-Gets RGB values
-				Font.java
+				2. Font.java
 					-Grabs bottom 2 rows from sprite_sheet.png
 					-Assigns specific tiles to text
-				Screen.java
+				3. Screen.java
 					-Renders game screen
 					-Handles color info from sprite_sheet.png
 					-Graphics processing
-				SpriteSheet.java
+				4. SpriteSheet.java
 					-Uses sprite_sheet.png like minecraft uses textures
 					-Sets bounds (256x256)
-			level:
-				Level.java
+			3. level:
+				1. Level.java
 					-Generates level from selected tiles
 					-Use this to make maps/levels
-			level.tiles:
-				BasicTile.java
+			4. level.tiles:
+				1. BasicTile.java
 					-Code outlining a basic tile
-				Tile.java
+				2. Tile.java
 					-Abstract class defining tile types (solid, liquid, etc)
-			res:
-				Resource folder, contains sprite_sheet.java
+			5. res:
+				1. Resource folder, contains sprite_sheet.java
 				
 This framework/engine was originally intended to be used to make
 multiplayer RPGs, but we can alter it to be used for multiplayer
