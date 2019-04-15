@@ -30,6 +30,7 @@ public class InputHandler implements KeyListener {
 		}
 	}
 
+	// Initializing keys
 	public Key up = new Key();
 	public Key down = new Key();
 	public Key left = new Key();
@@ -47,6 +48,7 @@ public class InputHandler implements KeyListener {
 
 	}
 
+	// Adding actions to keys
 	public void toggleKey(int keyCode, boolean isPressed) {
 		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
 			up.toggle(isPressed);

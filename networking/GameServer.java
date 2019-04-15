@@ -13,6 +13,7 @@ import game.Game;
 import networking.packets.Packet;
 import networking.packets.Packet.PacketTypes;
 import networking.packets.Packet00Login;
+import networking.packets.Packet01Disconnect;
 
 public class GameServer extends Thread {
 
@@ -41,7 +42,7 @@ public class GameServer extends Thread {
 				e.printStackTrace();
 			}
 
-			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 
 			// String message = new String(packet.getData());
 			// System.out.println(
@@ -57,29 +58,81 @@ public class GameServer extends Thread {
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
+		Packet packet = null;
 		switch (type) {
 		default:
 		case INVALID:
 			break;
 		case LOGIN:
-			Packet00Login packet = new Packet00Login(data);
-			System.out.println(
-					"[" + address.getHostAddress() + ":" + port + "] " + packet.getUsername() + " has connected. . .");
-			PlayerMP player = null;
-			if (address.getHostAddress().equalsIgnoreCase("127.0.0.1")) {
-				player = new PlayerMP(game.level, 100, 100, 2, game.input, packet.getUsername(), address, port);
-			} else {
-				player = new PlayerMP(game.level, 100, 100, 2, packet.getUsername(), address, port);
-			}
-			if (player != null) {
-				this.connectedPlayers.add(player);
-				game.level.addEntity(player);
-				game.player = player;
-			}
+			packet = new Packet00Login(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+					+ ((Packet00Login) packet).getUsername() + " has connected. . .");
+			PlayerMP player = new PlayerMP(game.level, 100, 100, 2, ((Packet00Login) packet).getUsername(), address,
+					port);
+			;
+			this.addConnection(player, (Packet00Login) packet);
 			break;
 		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+					+ ((Packet01Disconnect) packet).getUsername() + " has left. . .");
+			this.removeConnection((Packet01Disconnect) packet);
 			break;
 		}
+	}
+
+	// if player connects to server, set ip to localhost and port to 8300
+	public void addConnection(PlayerMP player, Packet00Login packet) {
+		boolean alreadyConnected = false;
+
+		// know we're dealing with same player regardless of their location
+		for (PlayerMP p : this.connectedPlayers) {
+			if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
+				if (p.ipAddress == null)
+					p.ipAddress = player.ipAddress;
+
+				if (p.port == -1)
+					p.port = player.port;
+
+				alreadyConnected = true;
+			} else {
+				// if not connected send data saying we're connected
+				// Relay to the current connected player that there is a new player
+				sendData(packet.getData(), p.ipAddress, p.port);
+
+				// relay to the new player that the currently connected player exists
+				packet = new Packet00Login(p.getUsername());
+				sendData(packet.getData(), player.ipAddress, player.port);
+			}
+		}
+		if (!alreadyConnected) {
+			this.connectedPlayers.add(player);
+		}
+	}
+
+	public void removeConnection(Packet01Disconnect packet) {
+		this.connectedPlayers.remove(getPlayerMPIndex(packet.getUsername()));
+		packet.writeData(this);
+	}
+
+	public PlayerMP getPlayerMP(String username) {
+		for (PlayerMP player : this.connectedPlayers) {
+			if (player.getUsername().equals(username)) {
+				return player;
+			}
+		}
+		return null;
+	}
+
+	public int getPlayerMPIndex(String username) {
+		int index = 0;
+		for (PlayerMP player : this.connectedPlayers) {
+			if (player.getUsername().equals(username)) {
+				break;
+			}
+			index++;
+		}
+		return index;
 	}
 
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {

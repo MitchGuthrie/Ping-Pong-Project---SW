@@ -9,6 +9,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import entities.Entity;
+import entities.PlayerMP;
 import gfx.Screen;
 import level.tiles.Tile;
 
@@ -67,6 +68,7 @@ public class Level {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void saveLevelToFile() {
 		try {
 			// takes image, inserts into this file
@@ -155,5 +157,16 @@ public class Level {
 	// Adds entities to level
 	public void addEntity(Entity entity) {
 		this.entities.add(entity);
+	}
+
+	public void removePlayerMP(String username) {
+		int index = 0;
+		for (Entity e : entities) {
+			if (e instanceof PlayerMP && ((PlayerMP) e).getUsername().equals(username)) {
+				break;
+			}
+			index++;
+		}
+		this.entities.remove(index);
 	}
 }

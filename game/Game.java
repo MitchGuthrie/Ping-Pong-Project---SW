@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import entities.Player;
+import entities.PlayerMP;
 import gfx.Colors;
 import gfx.Font;
 import gfx.Screen;
@@ -30,7 +31,7 @@ public class Game extends Canvas implements Runnable {
 	public static final int SCALE = 3;
 	public static final String NAME = "Game";
 
-	private JFrame frame;
+	public JFrame frame;
 
 	public boolean running = false;
 	public int tickCount = 0;
@@ -42,11 +43,12 @@ public class Game extends Canvas implements Runnable {
 	private Screen screen;
 	public InputHandler input;
 	public Level level;
+	public WindowHandler windowHandler;
 
 	public Player player;
 
-	private GameClient socketClient;
-	private GameServer socketServer;
+	public GameClient socketClient;
+	public GameServer socketServer;
 
 	// Sets up game frame/window
 	public Game() {
@@ -83,19 +85,24 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/res/sprite_sheet.png"));
 		input = new InputHandler(this);
+		windowHandler = new WindowHandler(this);
 		level = new Level("/res/Levels/small_test_level.png");
 		level = new Level("/res/Levels/water_test_level.png");
 
-		Packet00Login loginPacket = new Packet00Login(JOptionPane.showInputDialog(this, "Please enter a username"));
-		loginPacket.writeData(socketClient);
+		// creates player, set pos on screen
+		player = new PlayerMP(level, 100, 110, 1, input, JOptionPane.showInputDialog(this, "Please enter a username"),
+				null, -1);
+		// adds to level
+		level.addEntity(player);
 
-		// // creates player, set pos on screen
-		// player = new Player(level, 0, 0, 1, input, JOptionPane.showInputDialog(this,
-		// "Please enter a username"));
-		// // adds to level
-		// level.addEntity(player);
-		//
+		Packet00Login loginPacket = new Packet00Login(player.getUsername());
+
+		if (socketServer != null) {
+			socketServer.addConnection((PlayerMP) player, loginPacket);
+		}
+
 		// socketClient.sendData("Ping".getBytes());
+		loginPacket.writeData(socketClient);
 	}
 
 	public synchronized void start() {

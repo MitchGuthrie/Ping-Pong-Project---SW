@@ -7,7 +7,12 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import entities.PlayerMP;
 import game.Game;
+import networking.packets.Packet;
+import networking.packets.Packet.PacketTypes;
+import networking.packets.Packet00Login;
+import networking.packets.Packet01Disconnect;
 
 public class GameClient extends Thread {
 
@@ -37,8 +42,36 @@ public class GameClient extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			String message = new String(packet.getData());
-			System.out.println("Server > " + message);
+			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+			// String message = new String(packet.getData());
+			// System.out.println("Server > " + message);
+
+		}
+	}
+
+	private void parsePacket(byte[] data, InetAddress address, int port) {
+		String message = new String(data).trim();
+		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
+		Packet packet = null;
+		switch (type) {
+		default:
+		case INVALID:
+			break;
+		case LOGIN:
+			packet = new Packet00Login(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+					+ ((Packet00Login) packet).getUsername() + " has joined the game. . .");
+			PlayerMP player = new PlayerMP(game.level, 100, 100, 2, ((Packet00Login) packet).getUsername(), address,
+					port);
+			;
+			game.level.addEntity(player);
+			break;
+		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+					+ ((Packet01Disconnect) packet).getUsername() + " has left the world...");
+			game.level.removePlayerMP(((Packet01Disconnect) packet).getUsername());
+			break;
 		}
 	}
 
