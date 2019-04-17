@@ -76,11 +76,13 @@ public class GameClient extends Thread {
 	}
 
 	public void sendData(byte[] data) {
-		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, 8300);
-		try {
-			socket.send(packet);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!game.isApplet) {
+			DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, 8300);
+			try {
+				socket.send(packet);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -95,6 +97,7 @@ public class GameClient extends Thread {
 
 	private void handleMove(Packet02Move packet) {
 		// update player
-		this.game.level.movePlayer(packet.getUsername(), packet.getX(), packet.getY());
+		this.game.level.movePlayer(packet.getUsername(), packet.getX(), packet.getY(), packet.getNumSteps(),
+				packet.isMoving(), packet.getMovingDir());
 	}
 }

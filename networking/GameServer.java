@@ -83,8 +83,6 @@ public class GameServer extends Thread {
 
 		case MOVE:
 			packet = new Packet02Move(data);
-			System.out.println(((Packet02Move) packet).getUsername() + "has moved to " + ((Packet02Move) packet).getX()
-					+ "," + ((Packet02Move) packet).getY());
 			this.handleMove(((Packet02Move) packet));
 		}
 	}
@@ -144,11 +142,14 @@ public class GameServer extends Thread {
 	}
 
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
-		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
-		try {
-			socket.send(packet);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!game.isApplet) {
+
+			DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
+			try {
+				this.socket.send(packet);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -161,11 +162,14 @@ public class GameServer extends Thread {
 
 	private void handleMove(Packet02Move packet) {
 		if (getPlayerMP(packet.getUsername()) != null) {
-			// get location and index data from array
 			int index = getPlayerMPIndex(packet.getUsername());
-			this.connectedPlayers.get(index).x = packet.getX();
-			this.connectedPlayers.get(index).y = packet.getY();
-			// send to clients
+			PlayerMP player = this.connectedPlayers.get(index);
+
+			player.x = packet.getX();
+			player.y = packet.getY();
+			player.setMoving(packet.isMoving());
+			player.setMovingDir(packet.getMovingDir());
+			player.setNumSteps(packet.getNumSteps());
 			packet.writeData(this);
 		}
 	}

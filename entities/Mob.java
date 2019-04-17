@@ -11,7 +11,7 @@ public abstract class Mob extends Entity {
 	protected boolean isMoving;
 
 	// tells which direction it's moving
-	protected int movingDir = 1;
+	protected int movingDir = 3;
 
 	protected int scale = 1;
 
@@ -68,5 +68,29 @@ public abstract class Mob extends Entity {
 
 	public String getName() {
 		return name;
+	}
+
+	public int getNumSteps() {
+		return numSteps;
+	}
+
+	public void setNumSteps(int numSteps) {
+		this.numSteps = numSteps;
+	}
+
+	public boolean isMoving() {
+		return isMoving;
+	}
+
+	public void setMoving(boolean isMoving) {
+		this.isMoving = isMoving;
+	}
+
+	public int getMovingDir() {
+		return movingDir;
+	}
+
+	public void setMovingDir(int movingDir) {
+		this.movingDir = movingDir;
 	}
 }
