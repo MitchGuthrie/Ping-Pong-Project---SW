@@ -14,12 +14,14 @@ import networking.packets.Packet;
 import networking.packets.Packet.PacketTypes;
 import networking.packets.Packet00Login;
 import networking.packets.Packet01Disconnect;
+import networking.packets.Packet02Move;
 
 public class GameServer extends Thread {
 
 	private DatagramSocket socket;
 	private Game game;
 
+	// contains all players connected to server
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
 	public GameServer(Game game) {
@@ -78,6 +80,12 @@ public class GameServer extends Thread {
 					+ ((Packet01Disconnect) packet).getUsername() + " has left. . .");
 			this.removeConnection((Packet01Disconnect) packet);
 			break;
+
+		case MOVE:
+			packet = new Packet02Move(data);
+			System.out.println(((Packet02Move) packet).getUsername() + "has moved to " + ((Packet02Move) packet).getX()
+					+ "," + ((Packet02Move) packet).getY());
+			this.handleMove(((Packet02Move) packet));
 		}
 	}
 
@@ -101,7 +109,7 @@ public class GameServer extends Thread {
 				sendData(packet.getData(), p.ipAddress, p.port);
 
 				// relay to the new player that the currently connected player exists
-				packet = new Packet00Login(p.getUsername());
+				packet = new Packet00Login(p.getUsername(), p.x, p.y);
 				sendData(packet.getData(), player.ipAddress, player.port);
 			}
 		}
@@ -148,6 +156,17 @@ public class GameServer extends Thread {
 	public void sendDataToAllClients(byte[] data) {
 		for (PlayerMP p : connectedPlayers) {
 			sendData(data, p.ipAddress, p.port);
+		}
+	}
+
+	private void handleMove(Packet02Move packet) {
+		if (getPlayerMP(packet.getUsername()) != null) {
+			// get location and index data from array
+			int index = getPlayerMPIndex(packet.getUsername());
+			this.connectedPlayers.get(index).x = packet.getX();
+			this.connectedPlayers.get(index).y = packet.getY();
+			// send to clients
+			packet.writeData(this);
 		}
 	}
 }

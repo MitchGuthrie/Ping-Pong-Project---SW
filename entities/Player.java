@@ -1,15 +1,17 @@
 package entities;
 
+import game.Game;
 import game.InputHandler;
 import gfx.Colors;
 import gfx.Font;
 import gfx.Screen;
 import level.Level;
+import networking.packets.Packet02Move;
 
 public class Player extends Mob {
 
 	private InputHandler input;
-	private int color = Colors.get(-1, 111, 145, 543);
+	private int color = Colors.get(-1, 111, 145, 555);
 	private int scale = 1;
 	protected boolean isSwimming = false;
 	private String username;
@@ -40,6 +42,9 @@ public class Player extends Mob {
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
+
+			Packet02Move packet = new Packet02Move(this.getUsername(), this.x, this.y);
+			packet.writeData(Game.game.socketClient);
 		} else {
 			isMoving = true;
 		}

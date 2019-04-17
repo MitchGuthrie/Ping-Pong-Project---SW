@@ -3,21 +3,23 @@ package networking.packets;
 import networking.GameClient;
 import networking.GameServer;
 
-public class Packet00Login extends Packet {
+public class Packet02Move extends Packet {
 
 	private String username;
 	private int x, y;
 
-	public Packet00Login(byte[] data) {
-		super(00);
+	public Packet02Move(byte[] data) {
+		// ID
+		super(02);
+		// gets coords, delimited by comma
 		String[] dataArray = readData(data).split(",");
 		this.username = dataArray[0];
 		this.x = Integer.parseInt(dataArray[1]);
 		this.y = Integer.parseInt(dataArray[2]);
 	}
 
-	public Packet00Login(String username, int x, int y) {
-		super(00);
+	public Packet02Move(String username, int x, int y) {
+		super(02);
 		this.username = username;
 		this.x = x;
 		this.y = y;
@@ -35,7 +37,7 @@ public class Packet00Login extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("00" + this.username + "," + getX() + "," + getY()).getBytes();
+		return ("02" + this.username + "," + this.x + "," + this.y).getBytes();
 	}
 
 	public String getUsername() {
@@ -43,10 +45,11 @@ public class Packet00Login extends Packet {
 	}
 
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	public int getY() {
-		return y;
+		return this.y;
 	}
+
 }

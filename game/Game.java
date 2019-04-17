@@ -26,10 +26,11 @@ public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 160;
+	public static final int WIDTH = 260;
 	public static final int HEIGHT = WIDTH / 12 * 9;
-	public static final int SCALE = 3;
+	public static final int SCALE = 4;
 	public static final String NAME = "Game";
+	public static Game game;
 
 	public JFrame frame;
 
@@ -70,6 +71,7 @@ public class Game extends Canvas implements Runnable {
 
 	// Initializes colors/graphics and players
 	public void init() {
+		game = this;
 		int index = 0;
 		for (int r = 0; r < 6; r++) {
 			for (int g = 0; g < 6; g++) {
@@ -86,16 +88,16 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/res/sprite_sheet.png"));
 		input = new InputHandler(this);
 		windowHandler = new WindowHandler(this);
-		level = new Level("/res/Levels/small_test_level.png");
+		// level = new Level("/res/Levels/small_test_level.png");
 		level = new Level("/res/Levels/water_test_level.png");
 
 		// creates player, set pos on screen
-		player = new PlayerMP(level, 100, 110, 1, input, JOptionPane.showInputDialog(this, "Please enter a username"),
+		player = new PlayerMP(level, 197, 53, 1, input, JOptionPane.showInputDialog(this, "Please enter a username"),
 				null, -1);
 		// adds to level
 		level.addEntity(player);
 
-		Packet00Login loginPacket = new Packet00Login(player.getUsername());
+		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
 			socketServer.addConnection((PlayerMP) player, loginPacket);

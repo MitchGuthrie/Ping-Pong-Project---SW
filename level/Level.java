@@ -18,6 +18,8 @@ public class Level {
 	private byte[] tiles;
 	public int width;
 	public int height;
+
+	// list of all entities in the game
 	public List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
@@ -89,7 +91,7 @@ public class Level {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				if (x * y % 10 < 7) {
-					tiles[x + y * width] = Tile.GRASS.getId();
+					tiles[x + y * width] = Tile.BG.getId();
 				} else {
 					tiles[x + y * width] = Tile.STONE.getId();
 				}
@@ -168,5 +170,23 @@ public class Level {
 			index++;
 		}
 		this.entities.remove(index);
+	}
+
+	private int getPlayerMPIndex(String username) {
+		int index = 0;
+		for (Entity e : entities) {
+			if (e instanceof PlayerMP && ((PlayerMP) e).getUsername().equals(username)) {
+				break;
+			}
+			index++;
+		}
+		return index;
+	}
+
+	public void movePlayer(String username, int x, int y) {
+		// updates player to these coordinates
+		int index = getPlayerMPIndex(username);
+		this.entities.get(index).x = x;
+		this.entities.get(index).y = y;
 	}
 }
