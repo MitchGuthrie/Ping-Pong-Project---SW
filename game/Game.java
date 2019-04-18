@@ -10,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import entities.Ball;
 import entities.Player;
 import entities.PlayerMP;
 import gfx.Colors;
@@ -39,15 +40,16 @@ public class Game extends Canvas implements Runnable {
 	public int tickCount = 0;
 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	public int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	private int[] colours = new int[6 * 6 * 6];
 
-	private Screen screen;
+	public Screen screen;
 	public InputHandler input;
 	public Level level;
 	public WindowHandler windowHandler;
 
 	public Player player;
+	public Ball ball;
 
 	public GameClient socketClient;
 	public GameServer socketServer;
@@ -76,7 +78,6 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/res/sprite_sheet.png"));
 		input = new InputHandler(this);
 
-		// level = new Level("/res/Levels/small_test_level.png");
 		level = new Level("/res/Levels/water_test_level.png");
 
 		// creates player, set pos on screen
@@ -84,6 +85,12 @@ public class Game extends Canvas implements Runnable {
 				null, -1);
 		// adds to level
 		level.addEntity(player);
+
+		// creates ball, sets pos on screen
+		ball = new Ball(level, "ball", 197, 100, 1, true);
+
+		// adds ball to level
+		level.addEntity(ball);
 
 		if (!isApplet) {
 			Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);

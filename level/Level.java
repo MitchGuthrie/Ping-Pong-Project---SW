@@ -18,16 +18,11 @@ public class Level {
 	private byte[] tiles;
 	public int width;
 	public int height;
-
-	// list of all getEntities in the game
-	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
 
-	// Constructor
 	public Level(String imagePath) {
-
-		// If level image isn't there, load default level
 		if (imagePath != null) {
 			this.imagePath = imagePath;
 			this.loadLevelFromFile();
@@ -39,12 +34,11 @@ public class Level {
 		}
 	}
 
-	// Loads level from png
 	private void loadLevelFromFile() {
 		try {
 			this.image = ImageIO.read(Level.class.getResource(this.imagePath));
-			this.width = image.getWidth();
-			this.height = image.getHeight();
+			this.width = this.image.getWidth();
+			this.height = this.image.getHeight();
 			tiles = new byte[width * height];
 			this.loadTiles();
 		} catch (IOException e) {
@@ -52,17 +46,13 @@ public class Level {
 		}
 	}
 
-	// loops check for tiles, 256
 	private void loadTiles() {
-		// translated buffered image data into an int array/int
-		int[] tileColors = this.image.getRGB(0, 0, width, height, null, 0, width);
+		int[] tileColours = this.image.getRGB(0, 0, width, height, null, 0, width);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				// loops through all tiles in tiles var with t
 				tileCheck: for (Tile t : Tile.tiles) {
-					if (t != null && t.getLevelColor() == tileColors[x + y * width]) {
+					if (t != null && t.getLevelColor() == tileColours[x + y * width]) {
 						this.tiles[x + y * width] = t.getId();
-						// stops searching after found
 						break tileCheck;
 					}
 				}
@@ -73,20 +63,17 @@ public class Level {
 	@SuppressWarnings("unused")
 	private void saveLevelToFile() {
 		try {
-			// takes image, inserts into this file
-			ImageIO.write(image, "png", new File(Level.class.getResource(imagePath).getFile()));
+			ImageIO.write(image, "png", new File(Level.class.getResource(this.imagePath).getFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// Sets image with new RGB data
 	public void alterTile(int x, int y, Tile newTile) {
 		this.tiles[x + y * width] = newTile.getId();
 		image.setRGB(x, y, newTile.getLevelColor());
 	}
 
-	// Generates default level if map png wont load
 	public void generateLevel() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
@@ -103,15 +90,11 @@ public class Level {
 		return this.entities;
 	}
 
-	// Updates state of level 60 times per second
 	public void tick() {
-		// renders entites
-
 		for (Entity e : getEntities()) {
 			e.tick();
 		}
 
-		// for animated tiles, loops through all tiles
 		for (Tile t : Tile.tiles) {
 			if (t == null) {
 				break;
@@ -120,7 +103,6 @@ public class Level {
 		}
 	}
 
-	// Renders level
 	public void renderTiles(Screen screen, int xOffset, int yOffset) {
 		if (xOffset < 0)
 			xOffset = 0;
@@ -131,16 +113,8 @@ public class Level {
 		if (yOffset > ((height << 3) - screen.height))
 			yOffset = ((height << 3) - screen.height);
 
-		// Centers level on screen
-		if (screen.width > width * 8)
-			xOffset = (screen.width - (width * 8)) / 2 * -1;
-		if (screen.height > height * 8)
-			yOffset = (screen.height - (height * 8)) / 2 * -1;
-
-		// How much the screen is offset by if player moves past middle of screen
 		screen.setOffset(xOffset, yOffset);
 
-		// Only renders what's currently on screen
 		for (int y = (yOffset >> 3); y < (yOffset + screen.height >> 3) + 1; y++) {
 			for (int x = (xOffset >> 3); x < (xOffset + screen.width >> 3) + 1; x++) {
 				getTile(x, y).render(screen, this, x << 3, y << 3);
@@ -148,7 +122,6 @@ public class Level {
 		}
 	}
 
-	// Renders getEntities on top of tiles
 	public void renderEntities(Screen screen) {
 		for (Entity e : getEntities()) {
 			e.render(screen);
@@ -161,12 +134,11 @@ public class Level {
 		return Tile.tiles[tiles[x + y * width]];
 	}
 
-	// Adds getEntities to level
-	public void addEntity(Entity entity) {
+	public synchronized void addEntity(Entity entity) {
 		this.getEntities().add(entity);
 	}
 
-	public void removePlayerMP(String username) {
+	public synchronized void removePlayerMP(String username) {
 		int index = 0;
 		for (Entity e : getEntities()) {
 			if (e instanceof PlayerMP && ((PlayerMP) e).getUsername().equals(username)) {
@@ -188,8 +160,7 @@ public class Level {
 		return index;
 	}
 
-	public void movePlayer(String username, int x, int y, int numSteps, boolean isMoving, int movingDir) {
-		// updates player to these coordinates
+	public synchronized void movePlayer(String username, int x, int y, int numSteps, boolean isMoving, int movingDir) {
 		int index = getPlayerMPIndex(username);
 		PlayerMP player = (PlayerMP) this.getEntities().get(index);
 		player.x = x;
