@@ -1,4 +1,4 @@
-package account;
+package game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import game.Game;
+import account.ChatServer;
 import networking.GameClient;
 import networking.GameServer;
 

@@ -19,10 +19,12 @@ Overview of goals and background:
 		-Importable levels from png
 		-Animated tiles
 		-Username displayed
-	2. Unfinished:
-		-Physics
 		-Multiplayer
 		-Menus
+		
+	2. Unfinished:
+		-Physics
+
 		
 2. How it works (packages)
 

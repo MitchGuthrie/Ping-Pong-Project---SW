@@ -1,10 +1,20 @@
-package account;
+package game;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import account.ContactControl;
+import account.ContactPanel;
+import account.CreateAccountControl;
+import account.CreateAccountPanel;
+import account.InitialControl;
+import account.InitialPanel;
+import account.LoginControl;
+import account.LoginPanel;
+import account.PongClient;
 
 public class ClientGUI extends JFrame {
 	/**
