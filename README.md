@@ -1,7 +1,20 @@
 # Ping-Pong-Project
 
+RUNNING THE PONG.BAT FILE:
+1. Press the windows key + R at the same time
+2. Browse and select the pong.bat file downloaded.
+3. Press open which will paste the full bat file path into the run box.
+4. Press ok, and the bat file will open in a terminal and run.
+
+
+
+
+
+
 HOW TO RUN: Run the Game.java (in game package), then click on game screen to activate movement
-gdfgfdgdfgfdgdfgdfgfdgdfgdfgfdgdfg
+
+
+
 Overview of goals and background:
 
 1. Currently creating main game engine
