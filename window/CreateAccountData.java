@@ -1,18 +1,18 @@
-package account;
+package window;
 
 import java.io.Serializable;
 
-public class LoginData implements Serializable {
+public class CreateAccountData implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7918565348383270901L;
+	private static final long serialVersionUID = 6257452341842856839L;
 
 	private String username;
 	private String password;
 
 	// Constructor
-	public LoginData(String username, String password) {
+	public CreateAccountData(String username, String password) {
 		setUsername(username);
 		setPassword(password);
 	}

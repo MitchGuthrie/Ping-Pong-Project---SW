@@ -1,4 +1,4 @@
-package account;
+package window;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+
+import database.LoginData;
+import database.User;
+import networking.PongClient;
 
 public class LoginControl implements ActionListener {
 	private JPanel container;

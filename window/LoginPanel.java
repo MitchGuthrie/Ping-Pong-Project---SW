@@ -1,4 +1,4 @@
-package account;
+package window;
 
 import java.awt.Color;
 import java.awt.GridLayout;

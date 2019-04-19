@@ -1,4 +1,4 @@
-package account;
+package window;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+
+import networking.PongClient;
 
 public class CreateAccountControl implements ActionListener {
 	private JPanel container;

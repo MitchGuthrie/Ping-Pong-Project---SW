@@ -1,4 +1,4 @@
-package account;
+package window;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;

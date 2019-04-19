@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import account.ChatServer;
+import networking.ChatServer;
 import networking.GameClient;
 import networking.GameServer;
 

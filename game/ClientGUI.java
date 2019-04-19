@@ -6,15 +6,15 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import account.ContactControl;
-import account.ContactPanel;
-import account.CreateAccountControl;
-import account.CreateAccountPanel;
-import account.InitialControl;
-import account.InitialPanel;
-import account.LoginControl;
-import account.LoginPanel;
-import account.PongClient;
+import networking.PongClient;
+import window.ContactControl;
+import window.ContactPanel;
+import window.CreateAccountControl;
+import window.CreateAccountPanel;
+import window.InitialControl;
+import window.InitialPanel;
+import window.LoginControl;
+import window.LoginPanel;
 
 public class ClientGUI extends JFrame {
 	/**

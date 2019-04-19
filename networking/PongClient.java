@@ -1,6 +1,8 @@
-package account;
+package networking;
 
 import ocsf.client.AbstractClient;
+import window.CreateAccountControl;
+import window.LoginControl;
 
 public class PongClient extends AbstractClient {
 	LoginControl loginControl;
