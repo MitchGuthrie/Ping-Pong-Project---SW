@@ -113,7 +113,7 @@ public class Game extends Canvas implements Runnable {
 			socketServer.start();
 		}
 
-		socketClient = new GameClient(this, "localhost");
+		socketClient = new GameClient(this, "192.168.0.26");
 		socketClient.start();
 	}
 

@@ -35,7 +35,7 @@ public class GameLauncher extends Applet {
 		game.stop();
 	}
 
-	public static void main(String[] args) {
+	public static void Main(String[] args) {
 		// Sets up game frame/window
 		game.setMinimumSize(Game.DIMENSIONS);
 		game.setMaximumSize(Game.DIMENSIONS);
