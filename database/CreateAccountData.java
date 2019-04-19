@@ -1,4 +1,4 @@
-package window;
+package database;
 
 import java.io.Serializable;
 

@@ -17,7 +17,7 @@ public abstract class Tile {
 	protected byte id;
 	protected boolean solid;
 	protected boolean emitter;
-	private int color;
+	// private int color;
 	private int levelColor;
 
 	public Tile(int id, boolean isSolid, boolean isEmitter, int levelColor) {

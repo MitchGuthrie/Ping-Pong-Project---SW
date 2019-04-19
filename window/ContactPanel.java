@@ -1,5 +1,6 @@
 package window;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -15,35 +16,34 @@ public class ContactPanel extends JPanel {
 
 	// Constructor
 	public ContactPanel(ContactControl cc) {
-		JLabel label = new JLabel("Contact", JLabel.CENTER);
+		JLabel lblMainMenu = new JLabel("Main Menu", JLabel.CENTER);
 
 		JTextArea contactList = new JTextArea(5, 30);
-		contactList.setText("Person One\nPerson Two\n");
+		contactList.setText("Welcome to Pong!\r\n");
 		JPanel contactAreaBuffer = new JPanel();
 		contactAreaBuffer.add(contactList);
 
 		// Create the deleteContact button.
 		JButton playButton = new JButton("Play Game");
+		playButton.setBounds(10, 11, 234, 23);
 		playButton.addActionListener(cc);
 
-		// Create the AddContact button.
-		JButton addButton = new JButton("Add Contact");
-		addButton.addActionListener(cc);
-
-		// Create the AddContact button.
-		JButton logoutButton = new JButton("Log Out");
-		logoutButton.addActionListener(cc);
-
 		JPanel deleteButtonBuffer = new JPanel();
+		deleteButtonBuffer.setLayout(null);
 		deleteButtonBuffer.add(playButton);
-		deleteButtonBuffer.add(addButton);
-		deleteButtonBuffer.add(logoutButton);
 
 		// Arrange the components in a grid.
 		JPanel grid = new JPanel(new GridLayout(4, 1, 5, 5));
-		grid.add(label);
+		grid.add(lblMainMenu);
 		grid.add(contactAreaBuffer);
 		grid.add(deleteButtonBuffer);
+
+		// Create the AddContact button.
+		JButton logoutButton = new JButton("Log Out");
+		logoutButton.setBounds(10, 45, 234, 23);
+		logoutButton.addActionListener(cc);
+		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		deleteButtonBuffer.add(logoutButton);
 		this.add(grid);
 	}
 

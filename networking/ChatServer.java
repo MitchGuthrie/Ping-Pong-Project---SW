@@ -6,11 +6,11 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import database.CreateAccountData;
 import database.DatabaseFile;
 import database.LoginData;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import window.CreateAccountData;
 
 public class ChatServer extends AbstractServer {
 	private JTextArea log;

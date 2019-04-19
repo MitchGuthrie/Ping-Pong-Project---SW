@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import database.CreateAccountData;
 import networking.PongClient;
 
 public class CreateAccountControl implements ActionListener {

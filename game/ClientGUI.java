@@ -59,7 +59,7 @@ public class ClientGUI extends JFrame {
 		// Add layout to JFrame.
 		getContentPane().add(container, BorderLayout.CENTER);
 
-		this.setSize(550, 244);
+		this.setSize(555, 331);
 		this.setVisible(true);
 
 	}
