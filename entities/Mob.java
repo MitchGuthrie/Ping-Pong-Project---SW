@@ -60,6 +60,7 @@ public abstract class Mob extends Entity {
 		Tile lastTile = level.getTile((this.x + x) >> 3, (this.y + y) >> 3);
 		Tile newTile = level.getTile((this.x + x + xa) >> 3, (this.y + y + ya) >> 3);
 
+		// verifies tiles arent the same and the new tile is solid
 		if (lastTile.equals(newTile) && newTile.isSolid())
 			return true;
 

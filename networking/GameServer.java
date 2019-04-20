@@ -22,7 +22,8 @@ public class GameServer extends Thread {
 	private Game game;
 
 	// contains all players connected to server
-	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
+	public List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
+	public int numPlayers = 1;
 
 	public GameServer(Game game) {
 		this.game = game;
@@ -46,14 +47,6 @@ public class GameServer extends Thread {
 
 			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 
-			// String message = new String(packet.getData());
-			// System.out.println(
-			// "Client [" + packet.getAddress().getHostAddress() + ":" + packet.getPort() +
-			// "]" + message);
-			// if (message.trim().equalsIgnoreCase("ping")) {
-			// sendData("pong".getBytes(), packet.getAddress(), packet.getPort());
-			// }
-
 		}
 	}
 
@@ -73,6 +66,7 @@ public class GameServer extends Thread {
 					port);
 			;
 			this.addConnection(player, (Packet00Login) packet);
+			setNumPlayers(2);
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
@@ -99,6 +93,10 @@ public class GameServer extends Thread {
 
 				if (p.port == -1)
 					p.port = player.port;
+
+				// Changes spawn for player 1
+				if (p.y == 53)
+					p.y = 160;
 
 				alreadyConnected = true;
 			} else {
@@ -172,5 +170,13 @@ public class GameServer extends Thread {
 			player.setNumSteps(packet.getNumSteps());
 			packet.writeData(this);
 		}
+	}
+
+	public void setNumPlayers(int numPlayers) {
+		this.numPlayers = numPlayers;
+	}
+
+	public int getNumPlayers() {
+		return numPlayers;
 	}
 }

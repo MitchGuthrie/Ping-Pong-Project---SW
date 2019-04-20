@@ -27,10 +27,10 @@ public class Player extends Mob {
 		int ya = 0;
 		if (input != null) {
 			if (input.up.isPressed()) {
-				ya -= 1;
+				// ya -= 1;
 			}
 			if (input.down.isPressed()) {
-				ya += 1;
+				// ya += 1;
 			}
 			if (input.left.isPressed()) {
 				xa -= 1;
@@ -110,23 +110,30 @@ public class Player extends Mob {
 
 	public boolean hasCollided(int xa, int ya) {
 		// Set collision bounds on player
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
-		int yMax = 7;
+		int xMin = -4;
+		int xMax = 12;
+		int yMin = 1;
+		int yMax = 0;
 
+		// loops over x bounds on player
 		for (int x = xMin; x < xMax; x++) {
 			if (isSolidTile(xa, ya, x, yMin))
 				return true;
 		}
+
+		// loops over bottom x bounds on player
 		for (int x = xMin; x < xMax; x++) {
 			if (isSolidTile(xa, ya, x, yMax))
 				return true;
 		}
+
+		// loops over y bounds on player
 		for (int y = yMin; y < yMax; y++) {
 			if (isSolidTile(xa, ya, xMin, y))
 				return true;
 		}
+
+		// loops over bottom y bounds on player
 		for (int y = yMin; y < yMax; y++) {
 			if (isSolidTile(xa, ya, xMax, y))
 				return true;

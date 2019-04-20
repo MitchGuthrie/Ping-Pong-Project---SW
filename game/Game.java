@@ -49,6 +49,7 @@ public class Game extends Canvas implements Runnable {
 	public WindowHandler windowHandler;
 
 	public Player player;
+
 	public Ball ball;
 
 	public GameClient socketClient;
@@ -81,7 +82,7 @@ public class Game extends Canvas implements Runnable {
 		level = new Level("/res/Levels/water_test_level.png");
 
 		// creates player, set pos on screen
-		player = new PlayerMP(level, 197, 53, 1, input, JOptionPane.showInputDialog(this, "Please enter a username"),
+		player = new PlayerMP(level, 197, 53, 1, input, JOptionPane.showInputDialog(this, "Please enter a nickname"),
 				null, -1);
 		// adds to level
 		level.addEntity(player);
@@ -108,7 +109,7 @@ public class Game extends Canvas implements Runnable {
 		thread = new Thread(this, NAME + "_main");
 		thread.start();
 
-		if (JOptionPane.showConfirmDialog(this, "Run server?") == 0) {
+		if (JOptionPane.showConfirmDialog(this, "Host game ('No' for solo play)?") == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
 		}

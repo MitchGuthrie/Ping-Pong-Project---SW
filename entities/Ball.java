@@ -43,12 +43,16 @@ public class Ball extends Mob {
 			x += xa * speed;
 			y += ya * speed;
 		}
+
 	}
 
 	@Override
 	public void tick() {
 		int xa = 0;
 		int ya = 0;
+
+		// ball moves down
+		ya += 1;
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);

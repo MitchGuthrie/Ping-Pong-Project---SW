@@ -74,6 +74,7 @@ public class Level {
 		image.setRGB(x, y, newTile.getLevelColor());
 	}
 
+	// generated level
 	public void generateLevel() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
