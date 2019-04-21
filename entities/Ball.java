@@ -20,12 +20,13 @@ public class Ball extends Mob {
 	public void move(int xa, int ya) {
 
 		// prevents moving diagonally
-		if (xa != 0 && ya != 0) {
-			move(xa, 0);
-			move(ya, 0);
-			numSteps--;
-			return;
-		}
+//		if (xa != 0 && ya != 0) 
+//		{
+//			move(xa, 0);
+//			move(ya, 0);
+//			numSteps--;
+//			return;
+//		}
 
 		// takes step
 		numSteps++;
@@ -50,6 +51,9 @@ public class Ball extends Mob {
 		int xa = 0;
 		int ya = 0;
 
+		
+		xa++;
+		ya++;
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
@@ -61,7 +65,7 @@ public class Ball extends Mob {
 		} else {
 			isMoving = true;
 		}
-
+			
 		this.scale = 1;
 	}
 
