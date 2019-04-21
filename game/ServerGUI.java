@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import database.Database;
 import networking.ChatServer;
 import networking.GameClient;
 import networking.GameServer;
@@ -35,6 +36,7 @@ public class ServerGUI extends JFrame {
 	public static GameServer socketServer;
 	public static GameClient socketClient;
 	public static Game game;
+	public static Database pro = new Database();
 
 	public ServerGUI(String title) {
 		int i = 0;

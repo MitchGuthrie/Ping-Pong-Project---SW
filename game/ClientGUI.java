@@ -6,6 +6,7 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import database.Database;
 import networking.PongClient;
 import window.ContactControl;
 import window.ContactPanel;
@@ -22,6 +23,7 @@ public class ClientGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private PongClient chat;
+	public static Database pro = new Database();
 
 	// Constructor
 	public ClientGUI() {

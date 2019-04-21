@@ -18,6 +18,7 @@ public class DatabaseFile {
 	Integer idNum;
 	String username;
 	String password;
+	Database db = new Database();
 
 	public DatabaseFile() {
 		// empty constructor
@@ -27,6 +28,7 @@ public class DatabaseFile {
 	public String createAccount(String username, String password) {
 		InputStream in = null;
 		PrintWriter out = null;
+		db.createConnection();
 
 		ArrayList<String> array = new ArrayList<String>();
 
@@ -63,6 +65,9 @@ public class DatabaseFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		db.addUser(username, password);
+
 		return ("Account Created");
 
 	}
