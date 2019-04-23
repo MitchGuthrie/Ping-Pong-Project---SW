@@ -46,6 +46,9 @@ public class Game extends Canvas implements Runnable {
 	public Screen screen;
 	public InputHandler input;
 	public Level level;
+	public String levelA = "/res/Levels/water_test_level.png";
+	public String levelB = "/res/Levels/small_test_level.png";
+	public String levelSelect = "/res/Levels/water_test_level.png";
 	public WindowHandler windowHandler;
 
 	public Player player;
@@ -79,7 +82,7 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/res/sprite_sheet.png"));
 		input = new InputHandler(this);
 
-		level = new Level("/res/Levels/water_test_level.png");
+		level = new Level(getLevel());
 
 		// creates player, set pos on screen
 		player = new PlayerMP(level, 197, 53, 1, input, JOptionPane.showInputDialog(this, "Please enter a nickname"),
@@ -250,6 +253,21 @@ public class Game extends Canvas implements Runnable {
 
 	public static enum DebugLevel {
 		INFO, WARNING, SEVERE;
+	}
+
+	public void setLevel(int num) {
+		if (num == 1) {
+			levelSelect = levelA;
+		} else if (num == 2) {
+			levelSelect = levelB;
+		} else
+			levelSelect = levelA;
+
+	}
+
+	public String getLevel() {
+		return levelSelect;
+
 	}
 
 }

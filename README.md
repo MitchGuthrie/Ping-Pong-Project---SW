@@ -1,7 +1,10 @@
 # Ping-Pong-Project
 
-HOW TO RUN: Run the Game.java (in game package), then click on game screen to activate movement
-gdfgfdgdfgfdgdfgdfgfdgdfgdfgfdgdfg
+HOW TO RUN (in Eclipse): 	1. Run the ServerGUI.java (in game package), enter "8301" as the port number (8300 is being used by game), start server.
+							2. Run the ClientGUI, make an account, and play the game!	
+HOW TO RUN (.bat Files):	1. Place ServerGUI.bat in the project folder, run it with command line.
+							2. Place ClientGUI.bat in the project folder, run it with command line.
+							
 Overview of goals and background:
 
 1. Currently creating main game engine

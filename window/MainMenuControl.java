@@ -5,17 +5,20 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import game.Game;
 import game.GameLauncher;
 
-public class ContactControl implements ActionListener {
+public class MainMenuControl implements ActionListener {
 
 	private JPanel container;
 	public GameLauncher gameLauncher;
+	public Game game;
 
 	// Constructor
-	public ContactControl(JPanel container) {
+	public MainMenuControl(JPanel container) {
 		this.container = container;
 		this.gameLauncher = new GameLauncher();
+		game = new Game();
 	}
 
 	// Handle button clicks. For Later Lab
@@ -29,7 +32,11 @@ public class ContactControl implements ActionListener {
 		} else if (command.equals("Add Contact")) {
 
 		} else if (command.equals("Log Out")) {
-
+			System.exit(0);
+		} else if (command.equals("Level A")) {
+			game.setLevel(1);
+		} else if (command.equals("Level B")) {
+			game.setLevel(2);
 		}
 	}
 

@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 
 import database.Database;
 import networking.PongClient;
-import window.ContactControl;
-import window.ContactPanel;
+import window.MainMenuControl;
+import window.MainMenu;
 import window.CreateAccountControl;
 import window.CreateAccountPanel;
 import window.InitialControl;
@@ -39,7 +39,7 @@ public class ClientGUI extends JFrame {
 		InitialControl initialControl = new InitialControl(container);
 		LoginControl loginControl = new LoginControl(container, chat);
 		CreateAccountControl accountControl = new CreateAccountControl(container, chat);
-		ContactControl contactControl = new ContactControl(container);
+		MainMenuControl contactControl = new MainMenuControl(container);
 
 		chat.setLoginControl(loginControl);
 		chat.setCreateAccountControl(accountControl);
@@ -48,7 +48,7 @@ public class ClientGUI extends JFrame {
 		JPanel view1 = new InitialPanel(initialControl);
 		JPanel view2 = new LoginPanel(loginControl);
 		JPanel view3 = new CreateAccountPanel(accountControl);
-		JPanel view4 = new ContactPanel(contactControl);
+		JPanel view4 = new MainMenu(contactControl);
 
 		// Add views to the card layout
 		container.add(view1, "1");

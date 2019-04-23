@@ -2,20 +2,21 @@ package window;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class ContactPanel extends JPanel {
+public class MainMenu extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5936159790902109534L;
 
-	// Constructor
-	public ContactPanel(ContactControl cc) {
+	public MainMenu(MainMenuControl cc) {
 		JLabel lblMainMenu = new JLabel("Main Menu", JLabel.CENTER);
 
 		JTextArea contactList = new JTextArea(5, 30);
@@ -44,6 +45,14 @@ public class ContactPanel extends JPanel {
 		logoutButton.addActionListener(cc);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		deleteButtonBuffer.add(logoutButton);
+
+		JButton btnChangeLevel = new JButton("Level A");
+		btnChangeLevel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnChangeLevel.setBounds(10, 70, 111, 23);
+		deleteButtonBuffer.add(btnChangeLevel);
 		this.add(grid);
 	}
 
