@@ -117,6 +117,7 @@ public class Game extends Canvas implements Runnable {
 			socketServer.start();
 		}
 
+		// Change depending on wifi
 		socketClient = new GameClient(this, "192.168.0.26");
 		socketClient.start();
 	}
@@ -201,7 +202,7 @@ public class Game extends Canvas implements Runnable {
 		// Rendering fonts
 		for (int x = 0; x < level.width; x++) {
 			int colour = Colors.get(-1, -1, -1, 000);
-			Font.render("This is text", screen, 30, 100, colour, 1);
+			Font.render("Water Level", screen, 30, 100, colour, 1);
 		}
 
 		// Rendering entities

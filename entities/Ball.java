@@ -72,7 +72,7 @@ public class Ball extends Mob {
 	@Override
 	public void render(Screen screen) {
 		int xTile = 0;
-		int yTile = 27;
+		int yTile = 26;
 
 		// sets movment speed
 		int walkingSpeed = 3;
