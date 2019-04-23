@@ -42,6 +42,19 @@ public class Ball extends Mob {
 
 			x += xa * speed;
 			y += ya * speed;
+		} else {
+			if (ya < 0)
+				movingDir = 0; // north
+			if (ya > 0)
+				movingDir = 1; // south
+			if (xa < 0)
+				movingDir = 2; // east
+			if (xa > 0)
+				movingDir = 3; // west
+
+			x += xa * speed;
+			y += ya * speed;
+
 		}
 
 	}
@@ -51,8 +64,12 @@ public class Ball extends Mob {
 		int xa = 0;
 		int ya = 0;
 
-		// ball moves down
-		ya += 1;
+		if (!hasCollided(xa, ya) == true) {
+			// ball moves down
+			ya += 1;
+		} else {
+			ya -= 100;
+		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
